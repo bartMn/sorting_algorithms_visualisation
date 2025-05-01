@@ -33,7 +33,7 @@ Python 3.x
 Tkinter 
 
 ## File Structure
-runner.py: Main script to run the visualization.
-logic.py: Contains the core logic for managing sorting and visualization.
-sorts.py: Implements various sorting algorithms.
-README.md: Documentation for the project.
+runner.py: Main script to run the visualization.  
+logic.py: Contains the core logic for managing sorting and visualization.  
+sorts.py: Implements various sorting algorithms.  
+README.md: Documentation for the project.  

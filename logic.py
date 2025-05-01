@@ -4,8 +4,31 @@ import random
 import sorts
 
 class solver():
+	"""
+    Solver class to manage sorting algorithms and visualization.
+
+    Attributes:
+    - number_of_elements: Number of elements to sort.
+    - graph_width: Width of the visualization area.
+    - graph_height: Height of the visualization area.
+    - master: Tkinter frame for the visualization.
+    - interactive: List of labels for displaying comparisons and swaps.
+    """
 
 	def __init__(self,number_of_elements, graph_width, graph_height, master, interactive):
+		"""
+        Initialize the solver with visualization parameters and sorting algorithms.
+
+        Inputs:
+        - number_of_elements: Number of elements to sort.
+        - graph_width: Width of the visualization area.
+        - graph_height: Height of the visualization area.
+        - master: Tkinter frame for the visualization.
+        - interactive: List of Tkinter labels for displaying comparisons and swaps.
+
+        Outputs:
+        - Initializes the solver object with default values and sorting algorithms.
+        """
 		self.number_of_elements= number_of_elements
 		self.graph_height= graph_height
 		self.graph_width= graph_width
@@ -44,6 +67,12 @@ class solver():
 						 "quick sort": sorts.Quick_sort}
 
 	def create_rectangles(self):
+		"""
+        Create rectangles for visualization.
+
+        Outputs:
+        - A list of integers representing the elements to be sorted.
+        """
 		self.angle_grad= 5/6*pi/(self.number_of_elements)
 		current_angle= 0
 		to_sort= []
@@ -66,6 +95,15 @@ class solver():
 		return to_sort
 
 	def create_one_rectangle(self, bar):
+		"""
+        Create a single rectangle with color based on its value.
+
+        Input:
+        - bar: The value of the element to be represented as a rectangle.
+
+        Output:
+        - A Tkinter frame representing the rectangle.
+        """
 		percentage= self.grad*bar+ self.minimum_pecentage
 		angle= self.angle_grad*(bar)
 
@@ -91,6 +129,15 @@ class solver():
 
 
 	def hex_value(self, integer):
+		"""
+        Convert an integer to a two-character hexadecimal string.
+
+        Input:
+        - integer: An integer value between 0 and 255.
+
+        Output:
+        - A two-character hexadecimal string.
+        """
 		hex_value= str(hex(integer))
 		hex_value= hex_value[2:]
 		if len(hex_value)==1:
@@ -99,6 +146,16 @@ class solver():
 		return hex_value
 
 	def color_intensity(self, angle, phase):
+		"""
+        Calculate color intensity based on angle and phase.
+
+        Inputs:
+        - angle: The angle used for color calculation.
+        - phase: The phase shift for the color calculation.
+
+        Output:
+        - A two-character hexadecimal string representing the color intensity.
+        """
 		
 		out= cos(angle+ phase)**2
 		if out > 0.75:
@@ -112,6 +169,16 @@ class solver():
 		return self.hex_value(out)
 
 	def swap(self, position_0, position_1):
+		"""
+        Swap two elements and update their visualization.
+
+        Inputs:
+        - position_0: Index of the first element.
+        - position_1: Index of the second element.
+
+        Output:
+        - Updates the positions of the elements in the visualization.
+        """
 		self.number_of_swaps += 1
 		temp_bar= self.to_sort[position_0]
 		self.to_sort[position_0]= self.to_sort[position_1]
@@ -125,6 +192,16 @@ class solver():
 
 		
 	def place_frame(self, frame, place):
+		"""
+        Place a frame at a specific position in the grid.
+
+        Inputs:
+        - frame: The Tkinter frame to be placed.
+        - place: The index where the frame should be placed.
+
+        Output:
+        - Updates the grid layout with the new frame.
+        """
 		frame.grid(row=0, column= place, sticky="nsew")
 		temp= self.frames[place]
 		self.frames[place]= frame
@@ -133,6 +210,12 @@ class solver():
 
 
 	def shuffle(self):
+		"""
+        Shuffle the elements randomly.
+
+        Output:
+        - Updates the visualization with shuffled elements.
+        """
 		self.number_of_swaps= 0
 		self.number_of_comparisons= 0
 		self.update()
@@ -147,6 +230,16 @@ class solver():
 			self.place_frame(frame= temp_frame, place= place)
 
 	def comparison(self, key0, key1):
+		"""
+        Compare two elements and count the comparison.
+
+        Inputs:
+        - key0: The first element to compare.
+        - key1: The second element to compare.
+
+        Output:
+        - Returns True if key0 > key1, otherwise False.
+        """
 		self.number_of_comparisons += 1
 		if key0> key1:
 			return True
@@ -154,12 +247,24 @@ class solver():
 
 
 	def update(self):
+		"""
+        Update the GUI and interactive labels.
+
+        Output:
+        - Refreshes the GUI and updates the comparison and swap counters.
+        """
 		self.master.update()
 		self.interactive[0]["text"]= self.number_of_comparisons
 		self.interactive[1]["text"]= self.number_of_swaps
 
 
 	def sort(self):
+		"""
+        Perform sorting using the selected algorithm.
+
+        Output:
+        - Executes the sorting algorithm and updates the visualization.
+        """
 		if self.sorting_method:
 			sorting_method= self.sort_dict[self.sorting_method](self)
 			sorting_method.sort()
